@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlateShare | Login/Register</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background Image */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("image/loginbg.png"); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        .background::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            background: transparent;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo h2 {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .logo p {
+            color: white;
+            font-size: 0.78rem;
+            opacity: 0.95;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4ade80;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: #4ade80;
+        }
+
+        /* FORM SECTION */
+        .form-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 40px;
+            padding-bottom: 2rem;
+            min-height: calc(100vh - 120px);
+        }
+
+        .form-container {
+            background: white;
+            padding: 1.6rem 2rem;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 16px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.45);
+            animation: fadeUp .6s ease;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* RESPONSIVE WIDTH FIX */
+        @media (max-width: 1300px) {
+            .form-container {
+                max-width: 280px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .form-container {
+                max-width: 280px;
+                width: 92%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-wrapper {
+                padding-top: 120px;
+                padding-inline: 1.5rem;
+            }
+
+            .form-container {
+                max-width: 50%; /* width change for split screen*/
+                padding-inline: 1.5rem;
+            }
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #22c55e;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border-radius: 10px;
+            border: none;
+            background: #efefef;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            background: #ddd;
+        }
+
+        /* ROLE SECTION */
+        .role-section {
+            margin-top: 0.4rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .role-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .role-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 0.6rem 0.4rem;
+            border: none;
+            border-radius: 8px;
+            background: #4ade80;
+            color: #1f2933;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .role-btn:hover {
+            background: #22c55e;
+            transform: translateY(-1px);
+        }
+
+        .role-btn.selected {
+            background: #16a34a;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 8px;
+            border: none;
+            background: #e8e8e8;
+            color: #333;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #35e074;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1rem;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .form-footer a {
+            color: #22c55e;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="background"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <h2>PlateShare</h2>
+            <p>Share a plate<br>share a smile</p>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="profile.html" class="active">PROFILE</a></li>
+        </ul>
+    </nav>
+
+    <!-- FORM AREA -->
+    <div class="form-wrapper">
+
+        <!-- Register Form -->
+        <div id="registerForm" class="form-container">
+            <h2 class="form-title">Register</h2>
+
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <input type="text" id="regFullName" placeholder="Full name" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" id="regEmail" placeholder="Email" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="tel" id="regPhone" placeholder="Phone no" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="regAddress" placeholder="Address" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="regPassword" placeholder="Password" required>
+                </div>
+
+                <!-- Role -->
+                <div class="role-section">
+                    <label class="role-label">Role</label>
+                    <div class="role-buttons">
+                        <button type="button" class="role-btn" onclick="selectRole('admin', event)">Admin</button>
+                        <button type="button" class="role-btn" onclick="selectRole('donor', event)">Donor</button>
+                        <button type="button" class="role-btn" onclick="selectRole('ngo', event)">NGO</button>
+                    </div>
+                    <input type="hidden" id="selectedRole" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Register</button>
+            </form>
+
+            <div class="form-footer">
+                Already a member? <a onclick="showLogin()">Login Now</a>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="form-container hidden">
+            <h2 class="form-title">Login</h2>
+
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <input type="email" id="loginEmail" placeholder="Email address" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+
+            <div class="form-footer">
+                Don't have an account? <a onclick="showRegister()">Register Now</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Logic -->
+    <script>
+        let selectedUserRole = '';
+
+        function selectRole(role, ev) {
+            selectedUserRole = role;
+            document.getElementById('selectedRole').value = role;
+
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+
+            ev.target.classList.add('selected');
+        }
+
+        function showLogin() {
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+        }
+
+        function showRegister() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+
+            if (!selectedUserRole) {
+                alert('Please select a role');
+                return;
+            }
+
+            const userData = {
+                fullName: document.getElementById('regFullName').value,
+                email: document.getElementById('regEmail').value,
+                phone: document.getElementById('regPhone').value,
+                address: document.getElementById('regAddress').value,
+                password: document.getElementById('regPassword').value,
+                role: selectedUserRole
+            };
+
+            localStorage.setItem('user_' + userData.email, JSON.stringify(userData));
+            alert('Registration successful! Please login.');
+            showLogin();
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const storedUser = localStorage.getItem('user_' + email);
+            if (!storedUser) { alert('User not found'); return; }
+
+            const userData = JSON.parse(storedUser);
+            if (userData.password !== password) { alert('Wrong password'); return; }
+
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+
+            if (userData.role === 'donor') location.href = 'donor_profile.html';
+            else if (userData.role === 'ngo') location.href = 'ngo_profile.html';
+            else if (userData.role === 'admin') location.href = 'admin_dashboard.html';
+        }
+    </script>
+
+</body>
+</html>
