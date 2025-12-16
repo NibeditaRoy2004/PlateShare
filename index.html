@@ -394,15 +394,15 @@
         @media (max-width: 1024px) {
 
             .hero-wrapper {
-                flex-direction: column;
                 gap: 2.5rem;
                 padding: 2rem 5%;
-                /*grid-template-columns: 1fr;*/
+                grid-template-columns:repeat(2, 1fr);
             }
 
             .content-section {
-                flex-direction: column;
-                gap: 2.5rem;
+                grid-template-columns: 1fr;
+                /*flex-direction: column;
+                gap: 2.5rem;*/
             }
 
             .footer-container {
@@ -436,20 +436,15 @@
                 gap: 1.5rem;
                 flex-wrap: wrap;
                 justify-content: center;
-            }
+            }  
 
-            .hero-wrapper{
+             .hero-wrapper{
                 display: flex !important;
                 flex-direction: column;
                 align-items: flex-start;
 
             }
-
-            .hero-left {
-                order: 1;
-                text-align: left;
-            }
-
+            
             .hero-left h1 {
                 font-size: 2.2rem;
             }
@@ -457,11 +452,6 @@
             .hero-left p {
                 font-size: 1.1rem;
             }
-
-            .info-card {
-                order: 2;
-                margin-top: 2rem;
-            }    
 
             .quote-section p {
                 font-size: 1.2rem;
