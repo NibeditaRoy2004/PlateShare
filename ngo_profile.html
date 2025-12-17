@@ -271,7 +271,7 @@
     <script>
         // Load user details
         window.onload = function() {
-            const currentUser = localStorage.getItem('currentUser');
+            const currentUser = sessionStorage.getItem("loggedInUser");
 
             if(!currentUser) {
                 alert("Please login first!");
@@ -281,20 +281,20 @@
 
             const userData = JSON.parse(currentUser);
 
-            if(userData.role !== 'ngo') {
+            if(userData.role !== "NGO") {
                 alert("Unauthorized access. Not an NGO account!");
                 window.location.href = 'profile.html';
                 return;
             }
 
-            document.getElementById("ngoName").textContent = userData.fullName;
+            document.getElementById("ngoName").textContent = userData.name;
             document.getElementById("ngoEmail").textContent = userData.email;
-            document.getElementById("ngoPhone").textContent = userData.phone;
+            document.getElementById("ngoPhone").textContent = userData.phno;
             document.getElementById("ngoAddress").textContent = userData.address;
         }
 
         function logout() {
-            localStorage.removeItem('currentUser');
+            sessionStorage.removeItem("loggedInUser");
             window.location.href = 'index.html';
         }
 
@@ -306,7 +306,9 @@
                 statusCell.textContent = 'accepted';
                 button.textContent = 'ORDER PICKED';
                 button.className = 'action-btn picked-btn';
-                button.onclick = function(){ updateStatus(this,'picked'); };
+                button.onclick = function(){ 
+                    updateStatus(this,'picked'); 
+                };
             }
         }
     </script>
