@@ -417,6 +417,21 @@
 
     <!-- Logic -->
     <script>
+
+        window.onload = function () {
+            const user = sessionStorage.getItem("loggedInUser");
+            if (user) {
+                const userData = JSON.parse(user);
+                if (userData.role === "ADMIN") {
+                    window.location.href = "admin_dashboard.html";
+                } else if (userData.role === "DONOR") {   
+                    window.location.href = "donor_profile.html";
+                } else if (userData.role === "NGO") {
+                    window.location.href = "ngo_profile.html";     
+                }
+            }
+        };
+                    
         let selectedUserRole = '';
 
         function selectRole(role, ev) {
