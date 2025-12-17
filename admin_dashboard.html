@@ -188,9 +188,10 @@
         </div>
 
         <div class="sidebar-menu">
-            <a class="menu-item active" onclick="showSection('dashboard')">DASHBOARD</a>
-            <a class="menu-item" onclick="showSection('donations')">DONATIONS</a>
-            <a class="menu-item" onclick="showSection('ngo')">NGO</a>
+            <a class="menu-item active" onclick="showSection('dashboard', this)">DASHBOARD</a>
+            <a class="menu-item" onclick="showSection('donations', this)">DONATIONS</a>
+            <a class="menu-item" onclick="showSection('ngo', this)">NGO</a>
+
         </div>
 
         <div class="logout-menu">
@@ -264,76 +265,80 @@
 
     </div>
 
-    <script>
-        // Load admin and restrict access
-        window.onload = function () {
-            const currentUser = sessionStorage.getItem("loggedInUser");
-            if (!currentUser) {
-                alert("You must login first!");
-                window.location.href = "profile.html";
-                return;
-            }
+   <script>
+window.onload = function () {
 
-            const userData = JSON.parse(currentUser);
+    const currentUser = sessionStorage.getItem("loggedInUser");
+    if (!currentUser) {
+        alert("You must login first!");
+        window.location.href = "profile.html";
+        return;
+    }
 
-            if (userData.role !== 'ADMIN') {
-                alert("Unauthorized! Admin access only.");
-                window.location.href = "profile.html";
-                return;
-            }
+    const userData = JSON.parse(currentUser);
 
-            document.getElementById("adminName").textContent =
-                userData.name.toUpperCase();
+    if (userData.role !== "ADMIN") {
+        alert("Unauthorized! Admin access only.");
+        window.location.href = "profile.html";
+        return;
+    }
 
-            fetch("http://localhost:8090/api/admin/counts")    
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById("totalDonors").textContent = data.donors;
-                    document.getElementById("totalNGOs").textContent = data.ngos;
-                    document.getElementById("totalDonations").textContent = data.donations;
-                });
+    document.getElementById("adminName").textContent =
+        userData.name.toUpperCase();
 
-            fetch("http://localhost:8090/api/admin/ngos")
-                .then(res => res.json()) 
-                .then(ngos => {
-                    const tbody = document.getElementById("ngoTableBody");
-                    tbody.innerHTML = "";
+    // ================= COUNTS =================
+    fetch("http://localhost:8090/api/admin/counts")
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("totalDonors").textContent = data.donors;
+            document.getElementById("totalNGOs").textContent = data.ngos;
+            document.getElementById("totalDonations").textContent = data.donations;
+        })
+        .catch(err => console.error(err));
 
-                    ngos.forEach(ngo => {
-                            const row = 
-                                <tr>
-                                    <td>${ngo.name}</td>
-                                    <td>${ngo.email}</td>
-                                    <td>${ngo.phno}</td>
-                                    <td>${ngo.address}</td>
-                                </tr>
-                           ;
-                        ;
-                        tbody.innerHTML += row;
-                    });    
-                });    
+    // ================= NGO TABLE =================
+    fetch("http://localhost:8090/api/admin/ngos")
+        .then(res => res.json())
+        .then(ngos => {
+            const tbody = document.getElementById("ngoTableBody");
+            tbody.innerHTML = "";
 
-        }
-
-        function showSection(sectionName) {
-            document.querySelectorAll('.table-section').forEach(section => {
-                section.classList.remove('active');
+            ngos.forEach(ngo => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${ngo.name}</td>
+                        <td>${ngo.email}</td>
+                        <td>${ngo.phno}</td>
+                        <td>${ngo.address}</td>
+                    </tr>
+                `;
             });
+        })
+        .catch(err => console.error(err));
+};
 
-            document.getElementById(sectionName).classList.add('active');
+// ================= SIDEBAR NAV =================
+function showSection(sectionName, el) {
+    document.querySelectorAll(".table-section").forEach(sec =>
+        sec.classList.remove("active")
+    );
 
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.classList.remove('active');
-            });
+    document.getElementById(sectionName).classList.add("active");
 
-            event.target.classList.add('active');
-        }
+    document.querySelectorAll(".menu-item").forEach(item =>
+        item.classList.remove("active")
+    );
 
-        function logout() {
-            sessionStorage.removeItem("loggedInUser")
-            window.location.href = "profile.html";
-        }
-    </script>
+    el.classList.add("active");
+}
+
+// ================= LOGOUT =================
+function logout() {
+    sessionStorage.removeItem("loggedInUser");
+    window.location.href = "profile.html";
+}
+</script>
+
 
 </body>
 </html>
