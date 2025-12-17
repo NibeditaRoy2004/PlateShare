@@ -341,7 +341,7 @@
             <li><a href="index.html">HOME</a></li>
             <li><a href="about.html">ABOUT</a></li>
             <li><a href="contact.html">CONTACT</a></li>
-            <li><a href="profile.html" class="active">PROFILE</a></li>
+            <li><a id="profileLink" href="profile.html">PROFILE</a></li>
         </ul>
     </nav>
 
@@ -501,7 +501,7 @@
             .then(userData => {
 
                 sessionStorage.setItem("loggedInUser", JSON.stringify(userData));
-                
+
                 if (userData.role === 'DONOR') {
                     location.href = 'donor_profile.html';
                 } else if (userData.role === 'NGO') {
