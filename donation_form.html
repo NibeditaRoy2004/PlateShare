@@ -412,8 +412,32 @@
                 address: document.getElementById('address').value
             };
 
-            console.log('Form Data:', formData);
-            alert('Thank you for your donation! Form submitted successfully.');
+           fetch("http://localhost:8090/api/donations", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        foodName: formData.foodName,
+        mealType: formData.mealType,
+        category: formData.foodCategory,
+        quantity: formData.quantity,
+        donorName: formData.fullName,
+        donorEmail: formData.email,
+        donorPhone: formData.phone,
+        address: formData.address
+    })
+})
+.then(res => {
+    if (!res.ok) throw new Error("Failed");
+    return res.json();
+})
+.then(() => {
+    alert("Donation submitted successfully!");
+    window.location.href = "donor_profile.html";
+})
+.catch(() => alert("Something went wrong"));
+
             
             // Reset form
             this.reset();

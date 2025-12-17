@@ -265,7 +265,7 @@
 
     </div>
 
-   <script>
+    <script>
 window.onload = function () {
 
     const currentUser = sessionStorage.getItem("loggedInUser");
@@ -317,6 +317,26 @@ window.onload = function () {
         .catch(err => console.error(err));
 };
 
+fetch("http://localhost:8090/api/donations")
+    .then(res => res.json())
+    .then(donations => {
+        const tbody = document.getElementById("donationTableBody");
+        tbody.innerHTML = "";
+
+        donations.forEach(d => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${d.id}</td>
+                    <td>${d.donorName}</td>
+                    <td>${d.foodName}</td>
+                    <td>${d.quantity}</td>
+                    <td>${new Date(d.createdAt).toLocaleDateString()}</td>   
+                </tr>
+            `;
+        });
+    });
+
+
 // ================= SIDEBAR NAV =================
 function showSection(sectionName, el) {
     document.querySelectorAll(".table-section").forEach(sec =>
@@ -338,6 +358,7 @@ function logout() {
     window.location.href = "profile.html";
 }
 </script>
+
 
 
 </body>
