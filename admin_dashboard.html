@@ -176,6 +176,114 @@
             background: #f9fafb;
         }
 
+
+        /* ============================= */
+/* Responsive Design - Admin */
+/* ============================= */
+
+@media (max-width: 1024px) {
+
+    /* Sidebar shrinks */
+    .sidebar {
+        width: 220px;
+    }
+
+    .main-content {
+        margin-left: 220px;
+        padding: 1.8rem;
+    }
+
+    /* Summary cards become 2 columns */
+    .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .table-section {
+        padding: 1.8rem;
+    }
+}
+
+/* Tablet & Mobile */
+@media (max-width: 768px) {
+
+    body {
+        flex-direction: column;
+    }
+
+    /* Sidebar becomes top bar */
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-menu {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 1rem;
+    }
+
+    .menu-item {
+        padding: 0.8rem;
+        text-align: center;
+    }
+
+    .logout-menu {
+        margin-top: 1rem;
+        padding-top: 1rem;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 1.5rem;
+    }
+
+    /* Summary cards become single column */
+    .summary-cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    table {
+        font-size: 0.85rem;
+    }
+
+    th, td {
+        padding: 0.8rem;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+
+    .content-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .summary-card .number {
+        font-size: 2rem;
+    }
+
+    .sidebar-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .sidebar-header p {
+        font-size: 0.75rem;
+    }
+
+    th {
+        font-size: 0.8rem;
+    }
+
+    td {
+        font-size: 0.8rem;
+    }
+}
+
+
     </style>
 </head>
 <body>
