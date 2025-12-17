@@ -449,20 +449,74 @@
             }
 
             const userData = {
-                fullName: document.getElementById('regFullName').value,
+                name: document.getElementById('regFullName').value,
                 email: document.getElementById('regEmail').value,
-                phone: document.getElementById('regPhone').value,
+                phno: document.getElementById('regPhone').value,
                 address: document.getElementById('regAddress').value,
                 password: document.getElementById('regPassword').value,
-                role: selectedUserRole
+                role: selectedUserRole.toUpperCase()
             };
 
-            localStorage.setItem('user_' + userData.email, JSON.stringify(userData));
+            fetch('http://localhost:8090/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },   
+                body: JSON.stringify(userData) 
+            })
+            
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Registration failed');
+                }
+                alert('Registration successful! Please login.');
+                showLogin();
+            })  
+            .catch(error => {
+                alert(error.message);
+            });
+           
+            /*localStorage.setItem('user_' + userData.email, JSON.stringify(userData));
             alert('Registration successful! Please login.');
-            showLogin();
-        }
+            showLogin();*/
 
+        }   
+        
+        
         function handleLogin(event) {
+            event.preventDefault();
+            const loginData = {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value
+            };
+
+            fetch('http://localhost:8090/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Invalid email or password');
+                }
+                return response.json();
+            })
+            .then(userData => {
+                if (userData.role === 'DONOR') {
+                    location.href = 'donor_profile.html';
+                } else if (userData.role === 'NGO') {
+                    location.href = 'ngo_profile.html';
+                } else if (userData.role === 'ADMIN') {
+                    location.href = 'admin_dashboard.html';
+                }
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+        }
+        /*function handleLogin(event) {
             event.preventDefault();
 
             const email = document.getElementById('loginEmail').value;
@@ -479,7 +533,7 @@
             if (userData.role === 'donor') location.href = 'donor_profile.html';
             else if (userData.role === 'ngo') location.href = 'ngo_profile.html';
             else if (userData.role === 'admin') location.href = 'admin_dashboard.html';
-        }
+        }*/
     </script>
 
 </body>
