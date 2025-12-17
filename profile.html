@@ -475,11 +475,6 @@
             .catch(error => {
                 alert(error.message);
             });
-           
-            /*localStorage.setItem('user_' + userData.email, JSON.stringify(userData));
-            alert('Registration successful! Please login.');
-            showLogin();*/
-
         }   
         
         
@@ -498,6 +493,9 @@
                 body: JSON.stringify(loginData)
             })
             .then(response => {
+
+                sessionStorage.setItem("loggedInUser", JSON.stringify(userData));
+
                 if (!response.ok) {
                     throw new Error('Invalid email or password');
                 }
@@ -516,25 +514,10 @@
                 alert(error.message);
             });
         }
-        /*function handleLogin(event) {
-            event.preventDefault();
-
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            const storedUser = localStorage.getItem('user_' + email);
-            if (!storedUser) { alert('User not found'); return; }
-
-            const userData = JSON.parse(storedUser);
-            if (userData.password !== password) { alert('Wrong password'); return; }
-
-            localStorage.setItem('currentUser', JSON.stringify(userData));
-
-            if (userData.role === 'donor') location.href = 'donor_profile.html';
-            else if (userData.role === 'ngo') location.href = 'ngo_profile.html';
-            else if (userData.role === 'admin') location.href = 'admin_dashboard.html';
-        }*/
+        
     </script>
 
 </body>
 </html>
+
+

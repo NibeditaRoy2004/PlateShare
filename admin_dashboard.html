@@ -267,7 +267,7 @@
     <script>
         // Load admin and restrict access
         window.onload = function () {
-            const currentUser = localStorage.getItem('currentUser');
+            const currentUser = sessionStorage.getItem("loggedInUser");
 
             if (!currentUser) {
                 alert("You must login first!");
@@ -277,14 +277,14 @@
 
             const userData = JSON.parse(currentUser);
 
-            if (userData.role !== 'admin') {
+            if (userData.role !== 'ADMIN') {
                 alert("Unauthorized! Admin access only.");
                 window.location.href = "profile.html";
                 return;
             }
 
             document.getElementById("adminName").textContent =
-                userData.fullName.toUpperCase();
+                userData.name.toUpperCase();
         }
 
         function showSection(sectionName) {
@@ -302,7 +302,7 @@
         }
 
         function logout() {
-            localStorage.removeItem("currentUser");
+            sessionStorage.removeItem("loggedInUser")
             window.location.href = "index.html";
         }
     </script>
