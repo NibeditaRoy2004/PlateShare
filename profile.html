@@ -493,15 +493,15 @@
                 body: JSON.stringify(loginData)
             })
             .then(response => {
-
-                sessionStorage.setItem("loggedInUser", JSON.stringify(userData));
-
                 if (!response.ok) {
                     throw new Error('Invalid email or password');
                 }
                 return response.json();
             })
             .then(userData => {
+
+                sessionStorage.setItem("loggedInUser", JSON.stringify(userData));
+                
                 if (userData.role === 'DONOR') {
                     location.href = 'donor_profile.html';
                 } else if (userData.role === 'NGO') {
