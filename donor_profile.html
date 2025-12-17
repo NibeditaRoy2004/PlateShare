@@ -253,8 +253,8 @@
         // Load authenticated donor details
         window.onload = function () {
 
-            const currentUser = localStorage.getItem('currentUser');
-
+            const currentUser = sessionStorage.getItem("loggedInUser");
+            /* const currentUser = localStorage.getItem('currentUser'); */
             if (!currentUser) {
                 alert("Please login first");
                 window.location.href = "profile.html";
@@ -263,19 +263,19 @@
 
             const user = JSON.parse(currentUser);
 
-            if (user.role !== "donor") {
+            if (user.role !== "DONOR") {
                 alert("Access denied! Donor profile can only be viewed by donors.");
                 window.location.href = "profile.html";
                 return;
             }
 
-            document.getElementById("donorName").textContent = user.fullName;
+            document.getElementById("donorName").textContent = user.name;
             document.getElementById("donorEmail").textContent = user.email;
-            document.getElementById("donorPhone").textContent = user.phone;
+            document.getElementById("donorPhone").textContent = user.phno;
         };
 
         function logout() {
-            localStorage.removeItem("currentUser");
+            sessionStorage.removeItem("loggedInUser");
             window.location.href = "profile.html";
         }
     </script>
