@@ -218,7 +218,7 @@
                     <div class="number" id="totalNGOs">0</div>
                 </div>
 
-                <div class("summary-card">
+                <div class="summary-card">
                     <h3>Total Donations</h3>
                     <div class="number" id="totalDonations">0</div>
                 </div>
@@ -268,7 +268,6 @@
         // Load admin and restrict access
         window.onload = function () {
             const currentUser = sessionStorage.getItem("loggedInUser");
-
             if (!currentUser) {
                 alert("You must login first!");
                 window.location.href = "profile.html";
@@ -285,6 +284,35 @@
 
             document.getElementById("adminName").textContent =
                 userData.name.toUpperCase();
+
+            fetch("http://localhost:8090/api/admin/counts")    
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("totalDonors").textContent = data.donors;
+                    document.getElementById("totalNGOs").textContent = data.ngos;
+                    document.getElementById("totalDonations").textContent = data.donations;
+                });
+
+            fetch("http://localhost:8090/api/admin/ngos")
+                .then(res => res.json()) 
+                .then(ngos => {
+                    const tbody = document.getElementById("ngoTableBody");
+                    tbody.innerHTML = "";
+
+                    ngos.forEach(ngo => {
+                            const row = 
+                                <tr>
+                                    <td>${ngo.name}</td>
+                                    <td>${ngo.email}</td>
+                                    <td>${ngo.phno}</td>
+                                    <td>${ngo.address}</td>
+                                </tr>
+                           ;
+                        ;
+                        tbody.innerHTML += row;
+                    });    
+                });    
+
         }
 
         function showSection(sectionName) {
