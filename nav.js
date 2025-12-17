@@ -1,4 +1,4 @@
-window.onload = function () {
+document.addEventListener("DOMContentLoaded", function () {
 
     const user = sessionStorage.getItem("loggedInUser");
     const profileLink = document.getElementById("profileLink");
